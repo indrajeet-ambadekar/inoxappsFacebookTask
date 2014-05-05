@@ -1,0 +1,50 @@
+<a href="#person/<%= id %>/friends" id='user-friends' class="btn hide">Friends</a>
+<div class='header'>
+	<div class="container">
+		<div class="col-lg-3">
+			<span class='chat'>Chat</span>
+			<span class="profile-free">free</span>
+		</div>
+		<div class='col-lg-3 pull-right'>
+			<button class='btn btn-primary logout-btn logout'>Logout</button>
+		</div>
+	</div>
+</div>
+<div class='main-container'>
+	<div class='container'>
+		<div class='col-lg-3'>
+			<div class="currentuser">
+				<img src="https://graph.facebook.com/<%= id %>/picture?type=large" style="float:left; " class='userimg'/>
+				<div class='username'><%= name %></div>
+				<div class='userlocation'>
+					<span class='fa fa-map-marker'></span> <%= location.name %>
+					<span></span>
+				</div>
+			</div>
+		</div>
+		<div class='col-lg-9'>
+			<div class="friends">
+				<div class='friends-list' id='friendlist'></div>
+			</div>
+		</div>
+		<div class='col-lg-3'>
+		</div>
+		<div class='col-lg-9'>
+			<div class="friends">
+				<div class='friends-list' id='friend-data'></div>
+			</div>
+		</div>
+		<div class='col-lg-3 label'>
+		</div>
+		<div class='col-lg-9'>
+			<div class="friends">
+				<div class='friends-list' id='friend-mutual'></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$('#user-friends')[0].click();				
+	});
+</script>

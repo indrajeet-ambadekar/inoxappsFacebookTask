@@ -1,0 +1,62 @@
+<style>
+  .thumbnails{
+    margin-left: -5px;
+    list-style: none !important;
+  }
+  a, a:hover, a:active{
+    color: #333333;
+  }
+</style>
+<ul class="thumbnails">
+  <% for(var friend in data) { %>
+  <li>
+    <a href="#%>" class="thumbnail plain" style="width: 155px;text-decoration: none;position:relative;">
+      <div style="position:relative;height:145px;width: 145px;">
+        <img src="https://graph.facebook.com/<%= data[friend].id %>/picture?width=140&height=140" data-id='<%= data[friend].id %>' title='<%= data[friend].name %>' class='user-thumbnail'/>
+      </div>
+    </a>
+    <% } %>
+  </ul>
+
+  <ul class="pager">
+    <% if (paging.previous) { %>
+    <li><a href="#" class="previous"><span class='fa fa-chevron-left'></span></a></li>
+    <% } %>
+    <% if (paging.next) { %>
+    <li><a href="#" class="next"><span class='fa fa-chevron-right'></span></a></li>
+    <% } %>
+  </ul>
+
+  <script>
+    $(document).ready(function(){
+      $(document).on('mouseover','.user-thumbnail',function(){
+        try {
+          FB.api("/" + $(this).attr('data-id'), function (response) {
+            var temp="<div class='row'><div class='col-lg-3'><img src='https://graph.facebook.com/"+response.id+"/picture?width=140&height=140' data-id='<%= data[friend].id %>' title='<%= data[friend].name %>' class='friendimg'/></div><div class='col-lg-4'><div class='friend-name'>"+response.name+"</div><div class='friend-location'><span class='fa fa-smile-o'></span>  "+response.gender+"</div></div><div class='col-lg-5 about'>About me makes it easy for you to know me!! But for now, the content isnt available. Just wait for some time.</div></div>"
+            $('#friend-data').html(temp);
+          });
+        } catch (e) {
+          this.showErrorPage();
+        }
+        try {
+          FB.api("/" + $(this).attr('data-id')+'/mutualfriends?limit=5', function (response) {
+           var newtemp;   
+           newtemp="<ul class='thumbnails'>"
+           for(var friend in response.data) {
+            newtemp+="<li>"
+            newtemp+="<a href='#%>' class='thumbnail plain' style='width: 155px;text-decoration: none;position:relative;'>"
+            newtemp+="<div style='position:relative;height:145px;width: 145px;'>"
+            newtemp+="<img src='https://graph.facebook.com/"+response.data[friend].id +"/picture?width=140&height=140' data-id='"+response.data[friend].id +"' title='"+ response.data[friend].name +"' class=''/>"
+            newtemp+="</div>"
+            newtemp+="</a></li>"
+          }
+          newtemp+="</ul>"
+          $('#friend-mutual').html(newtemp);
+          $('.label').html("<div style='margin-top:90px'>Mutual Friends:</div>");
+        });
+        } catch (e) {
+          this.showErrorPage();
+        }
+      });
+});    
+</script>
